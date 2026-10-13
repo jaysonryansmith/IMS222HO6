@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Branson, MO | The Live Music & Ozark Lake Capital</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pine: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                            950: '#052e16',
+                        },
+                        amberOzark: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                        },
+                        lakeSky: {
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Custom scrollbar and animations */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #15803d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #14532d;
+        }
+
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Range Slider Styling */
+        input[type=range] {
+            accent-color: #d97706;
+        }
+
+        /* Print styles for Itinerary modal */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #itinerary-print-area, #itinerary-print-area * {
+                visibility: visible;
+            }
+            #itinerary-print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-amberOzark-500 selection:text-white flex flex-col min-h-screen">
+
+    <!-- TOP ANNOUNCEMENT BANNER -->
+    <div class="bg-pine-950 text-amberOzark-400 text-xs sm:text-sm font-medium py-2 px-4 text-center border-b border-pine-800 flex items-center justify-center gap-2">
+        <span>🌲 Plan Your 2026/2027 Branson Ozark Getaway | Explore Shows, Lakes & Family Fun!</span>
+        <button onclick="switchView('cost')" class="underline hover:text-white transition font-semibold ml-2 hidden md:inline">Estimate Your Trip Cost &rarr;</button>
+    </div>
+
+    <!-- MAIN HEADER NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-pine-900/95 backdrop-blur-md text-white shadow-lg border-b border-pine-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- BRAND LOGO -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('home')">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-amberOzark-600 to-amberOzark-400 flex items-center justify-center text-white shadow-md shadow-amberOzark-600/30">
+                        <i class="fa-solid fa-mountain-sun text-2xl"></i>
+                    </div>
+                    <div>
+                        <div class="text-xl sm:text-2xl font-serif font-bold tracking-tight text-white leading-tight">
+                            BRANSON <span class="text-amberOzark-400 font-sans text-xs sm:text-sm font-semibold tracking-wider uppercase block">Missouri</span>
+                        </div>
+                        <p class="text-[10px] text-slate-300 font-light tracking-wide hidden sm:block">The Live Music & Ozark Lake Capital</p>
+                    </div>
+                </div>
+
+                <!-- DESKTOP NAV WITH MULTI-LEVEL DROPDOWNS -->
+                <nav class="hidden lg:flex items-center space-x-1">
+                    
+                    <!-- HOME -->
+                    <button onclick="switchView('home')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium hover:bg-pine-800 transition text-slate-200 hover:text-white" data-view="home">
+                        <i class="fa-solid fa-house mr-1.5 text-xs text-amberOzark-400"></i>Home
+                    </button>
+
+                    <!-- ATTRACTIONS DROPDOWN -->
+                    <div class="relative group">
+                        <button onclick="switchView('attractions')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium hover:bg-pine-800 transition text-slate-200 hover:text-white flex items-center gap-1.5" data-view="attractions">
+                            <i class="fa-solid fa-ticket mr-1 text-xs text-amberOzark-400"></i>Attractions
+                            <i class="fa-solid fa-chevron-down text-[10px] opacity-70 group-hover:rotate-180 transition-transform duration-200"></i>
+                        </button>
+                        <div class="dropdown-menu absolute left-0 top-full pt-2 w-60 z-50">
+                            <div class="bg-white rounded-xl shadow-xl border border-slate-100 py-2 text-slate-700 text-sm overflow-hidden">
+                                <a href="#attractions" onclick="switchView('attractions', 'all')" class="flex items-center px-4 py-2.5 hover:bg-pine-50 hover:text-pine-900 transition">
+                                    <i class="fa-solid fa-grip text-pine-700 w-6"></i> All Attractions
+                                </a>
+                                <a href="#attractions" onclick="switchView('attractions', 'themepark')" class="flex items-center px-4 py-2.5 hover:bg-pine-50 hover:text-pine-900 transition">
+                                    <i class="fa-solid fa-roller-coaster text-pine-700 w-6"></i> Theme Parks & Rides
+                                </a>
+                                <a href="#attractions" onclick="switchView('attractions', 'shows')" class="flex items-center px-4 py-2.5 hover:bg-pine-50 hover:text-pine-900 transition">
+                                    <i class="fa-solid fa-music text-pine-700 w-6"></i> Live Shows & Music
+                                </a>
+                                <a href="#attractions" onclick="switchView('attractions', 'nature')" class="flex items-center px-4 py-2.5 hover:bg-pine-50 hover:text-pine-900 transition">
+                                    <i class="fa-solid fa-water text-pine-700 w-6"></i> Lakes & Nature
+                                </a>
+                                <a href="#attractions" onclick="switchView('attractions', 'museums')" class="flex items-center px-4 py-2.5 hover:bg-pine-50 hover:text-pine-900 transition">
+                                    <i class="fa-solid fa-building-columns text-pine-700 w-6"></i> Museums & Shopping
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EAT & STAY DROPDOWN -->
+                    <div class="relative group">
+                        <button onclick="switchView('eat-stay')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium hover:bg-pine-800 transition text-slate-200 hover:text-white flex items-center gap-1.5" data-view="eat-stay">
+                            <i class="fa-solid fa-utensils mr-1 text-xs text-amberOzark-400"></i>Eat & Stay
+                            <i class="fa-solid fa-chevron-down text-[10px] opacity-70 group-hover:rotate-180 transition-transform duration-200"></i>
+                        </button>
+                        <div class="dropdown-menu absolute left-0 top-full pt-2 w-60 z-50">
+                            <div class="bg-white rounded-xl shadow-xl border border-slate-100 py-2 text-slate-700 text-sm overflow-hidden">
+                                <a href="#eat-stay" onclick="switchEatStayTab('eat')" class="flex items-center px-4 py-2.5 hover:bg-pine-50 hover:text-pine-900 transition">
+                                    <i class="fa-solid fa-burger text-amberOzark-600 w-6"></i> Famous Ozark Dining
+                                </a>
+                                <a href="#eat-stay" onclick="switchEatStayTab('stay')" class="flex items-center px-4 py-2.5 hover:bg-pine-50 hover:text-pine-900 transition">
+                                    <i class="fa-solid fa-hotel text-amberOzark-600 w-6"></i> Hotels & Luxury Resorts
+                                </a>
+                                <a href="#eat-stay" onclick="switchEatStayTab('stay')" class="flex items-center px-4 py-2.5 hover:bg-pine-50 hover:text-pine-900 transition">
+                                    <i class="fa-solid fa-campground text-amberOzark-600 w-6"></i> Lake Cabins & Camping
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TOWN HISTORY DROPDOWN -->
+                    <div class="relative group">
+                        <button onclick="switchView('history')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium hover:bg-pine-800 transition text-slate-200 hover:text-white flex items-center gap-1.5" data-view="history">
+                            <i class="fa-solid fa-landmark mr-1 text-xs text-amberOzark-400"></i>Town History
+                            <i class="fa-solid fa-chevron-down text-[10px] opacity-70 group-hover:rotate-180 transition-transform duration-200"></i>
+                        </button>
+                        <div class="dropdown-menu absolute left-0 top-full pt-2 w-64 z-50">
+                            <div class="bg-white rounded-xl shadow-xl border border-slate-100 py-2 text-slate-700 text-sm overflow-hidden">
+                                <a href="#history" onclick="switchView('history'); scrollToSection('timeline-sec');" class="flex items-center px-4 py-2.5 hover:bg-pine-50 hover:text-pine-900 transition">
+                                    <i class="fa-solid fa-timeline text-lakeSky-600 w-6"></i> Historical Timeline
+                                </a>
+                                <a href="#history" onclick="switchView('history'); scrollToSection('marvel-cave-sec');" class="flex items-center px-4 py-2.5 hover:bg-pine-50 hover:text-pine-900 transition">
+                                    <i class="fa-solid fa-gem text-lakeSky-600 w-6"></i> Marvel Cave Discovery
+                                </a>
+                                <a href="#history" onclick="switchView('history'); scrollToSection('music-capital-sec');" class="flex items-center px-4 py-2.5 hover:bg-pine-50 hover:text-pine-900 transition">
+                                    <i class="fa-solid fa-guitar text-lakeSky-600 w-6"></i> Live Music Boom
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BUDGET & COST DROPDOWN -->
+                    <div class="relative group">
+                        <button onclick="switchView('cost')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium hover:bg-pine-800 transition text-slate-200 hover:text-white flex items-center gap-1.5" data-view="cost">
+                            <i class="fa-solid fa-calculator mr-1 text-xs text-amberOzark-400"></i>Cost to Visit
+                            <i class="fa-solid fa-chevron-down text-[10px] opacity-70 group-hover:rotate-180 transition-transform duration-200"></i>
+                        </button>
+                        <div class="dropdown-menu absolute left-0 top-full pt-2 w-64 z-50">
+                            <div class="bg-white rounded-xl shadow-xl border border-slate-100 py-2 text-slate-700 text-sm overflow-hidden">
+                                <a href="#cost" onclick="switchView('cost'); scrollToSection('estimator-tool');" class="flex items-center px-4 py-2.5 hover:bg-pine-50 hover:text-pine-900 transition font-medium text-amberOzark-600">
+                                    <i class="fa-solid fa-sliders text-amberOzark-600 w-6"></i> Interactive Cost Estimator
+                                </a>
+                                <a href="#cost" onclick="switchView('cost'); scrollToSection('tier-breakdown');" class="flex items-center px-4 py-2.5 hover:bg-pine-50 hover:text-pine-900 transition">
+                                    <i class="fa-solid fa-coins text-pine-700 w-6"></i> Budget vs Luxury Tiers
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </nav>
+
+                <!-- ITINERARY BUTTON & MOBILE BURGER -->
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleItineraryDrawer()" class="relative bg-amberOzark-500 hover:bg-amberOzark-600 text-slate-900 font-semibold px-4 py-2.5 rounded-xl transition shadow-md flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-suitcase"></i>
+                        <span class="hidden sm:inline">My Itinerary</span>
+                        <span id="itinerary-badge" class="bg-pine-900 text-white text-xs font-bold px-2 py-0.5 rounded-full min-w-[20px] text-center">0</span>
+                    </button>
+
+                    <!-- Mobile menu button -->
+                    <button onclick="toggleMobileMenu()" type="button" class="lg:hidden p-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-pine-800 focus:outline-none" aria-label="Toggle Navigation">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOBILE NAVIGATION MENU (Hidden by default) -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-pine-950 border-b border-pine-800 px-4 pt-3 pb-6 space-y-3">
+            <button onclick="switchView('home'); toggleMobileMenu();" class="block w-full text-left px-3 py-2.5 rounded-lg font-medium text-white hover:bg-pine-800">
+                <i class="fa-solid fa-house w-6 text-amberOzark-400"></i> Home Overview
+            </button>
+            <div class="border-t border-pine-800 pt-2">
+                <div class="text-xs font-semibold uppercase tracking-wider text-amberOzark-400 px-3 py-1">Top Attractions</div>
+                <button onclick="switchView('attractions', 'all'); toggleMobileMenu();" class="block w-full text-left px-6 py-2 rounded-lg text-slate-300 hover:text-white">All Attractions</button>
+                <button onclick="switchView('attractions', 'themepark'); toggleMobileMenu();" class="block w-full text-left px-6 py-2 rounded-lg text-slate-300 hover:text-white">Theme Parks & Rides</button>
+                <button onclick="switchView('attractions', 'shows'); toggleMobileMenu();" class="block w-full text-left px-6 py-2 rounded-lg text-slate-300 hover:text-white">Live Music Shows</button>
+                <button onclick="switchView('attractions', 'nature'); toggleMobileMenu();" class="block w-full text-left px-6 py-2 rounded-lg text-slate-300 hover:text-white">Lakes & Outdoor Nature</button>
+            </div>
+            <div class="border-t border-pine-800 pt-2">
+                <div class="text-xs font-semibold uppercase tracking-wider text-amberOzark-400 px-3 py-1">Where to Eat & Stay</div>
+                <button onclick="switchEatStayTab('eat'); switchView('eat-stay'); toggleMobileMenu();" class="block w-full text-left px-6 py-2 rounded-lg text-slate-300 hover:text-white">Branson Restaurants</button>
+                <button onclick="switchEatStayTab('stay'); switchView('eat-stay'); toggleMobileMenu();" class="block w-full text-left px-6 py-2 rounded-lg text-slate-300 hover:text-white">Resorts & Cabins</button>
+            </div>
+            <div class="border-t border-pine-800 pt-2">
+                <div class="text-xs font-semibold uppercase tracking-wider text-amberOzark-400 px-3 py-1">Town History & Cost</div>
+                <button onclick="switchView('history'); toggleMobileMenu();" class="block w-full text-left px-6 py-2 rounded-lg text-slate-300 hover:text-white">Historical Timeline</button>
+                <button onclick="switchView('cost'); toggleMobileMenu();" class="block w-full text-left px-6 py-2 rounded-lg text-slate-300 hover:text-white">Interactive Cost Estimator</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT VIEWS CONTAINER -->
+    <main class="flex-grow">
+
+        <!-- ================================================================= -->
+        <!-- VIEW 1: HOME / OVERVIEW -->
+        <!-- ================================================================= -->
+        <section id="view-home" class="view-section">
+            
+            <!-- HERO BANNER -->
+            <div class="relative bg-pine-900 text-white min-h-[580px] flex items-center overflow-hidden">
+                <div class="absolute inset-0 z-0 opacity-40 mix-blend-overlay">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80" alt="Branson Ozark Lake" class="w-full h-full object-cover">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-r from-pine-950 via-pine-900/80 to-transparent z-0"></div>
+
+                <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-6">
+                        <span class="inline-flex items-center gap-2 bg-amberOzark-500/20 border border-amberOzark-400/40 text-amberOzark-300 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
+                            <i class="fa-solid fa-star text-amberOzark-400"></i> Official Ozark Gateway
+                        </span>
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold leading-tight text-white">
+                            Experience the Magic of <span class="text-transparent bg-clip-text bg-gradient-to-r from-amberOzark-400 to-amber-200">Branson, Missouri</span>
+                        </h1>
+                        <p class="text-slate-200 text-lg sm:text-xl font-light max-w-2xl leading-relaxed">
+                            Nestled in the heart of the scenic Ozark Mountains, Branson combines world-class live entertainment, crystal-clear lake adventures, award-winning theme parks, and rich mountain heritage.
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-4 pt-4">
+                            <button onclick="switchView('attractions')" class="bg-amberOzark-500 hover:bg-amberOzark-600 text-slate-950 font-bold px-7 py-3.5 rounded-xl transition shadow-lg shadow-amberOzark-500/20 flex items-center gap-2">
+                                <i class="fa-solid fa-compass"></i> Explore Attractions
+                            </button>
+                            <button onclick="switchView('cost')" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-7 py-3.5 rounded-xl backdrop-blur-md transition flex items-center gap-2">
+                                <i class="fa-solid fa-calculator"></i> Calculate Trip Cost
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- QUICK TRIP PLANNER CARD -->
+                    <div class="lg:col-span-5">
+                        <div class="glass-card rounded-2xl p-6 sm:p-8 text-slate-800 shadow-2xl relative">
+                            <h3 class="text-xl font-serif font-bold text-pine-900 mb-1 flex items-center gap-2">
+                                <i class="fa-solid fa-map-location-dot text-amberOzark-600"></i> Plan Your Branson Stay
+                            </h3>
+                            <p class="text-xs text-slate-500 mb-6">Find top recommendations suited to your vacation style</p>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Traveler Type</label>
+                                    <select id="quick-traveler-type" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-pine-700 focus:outline-none">
+                                        <option value="family">Family Vacation with Kids</option>
+                                        <option value="couples">Couples Romantic Getaway</option>
+                                        <option value="seniors">Seniors & Sightseeing</option>
+                                        <option value="adventure">Outdoor & Lake Enthusiasts</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Primary Interest</label>
+                                    <select id="quick-interest" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-pine-700 focus:outline-none">
+                                        <option value="shows">Live Music & Theater Shows</option>
+                                        <option value="themepark">Silver Dollar City & Rides</option>
+                                        <option value="lakes">Table Rock Lake & Boating</option>
+                                        <option value="history">History & Local Museums</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Target Trip Length</label>
+                                    <select id="quick-days" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-pine-700 focus:outline-none">
+                                        <option value="3">3 Days (Weekend Getaway)</option>
+                                        <option value="5" selected>5 Days (Standard Family Trip)</option>
+                                        <option value="7">7 Days (Full Vacation Week)</option>
+                                    </select>
+                                </div>
+
+                                <button onclick="handleQuickSearch()" class="w-full bg-pine-800 hover:bg-pine-900 text-white font-semibold py-3 rounded-xl transition shadow flex items-center justify-center gap-2 mt-2">
+                                    <i class="fa-solid fa-magnifying-glass"></i> See Recommended Itinerary
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STATS COUNTER BAR -->
+            <div class="bg-pine-950 text-white py-10 border-t border-pine-800">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div>
+                        <div class="text-3xl sm:text-4xl font-serif font-bold text-amberOzark-400">100+</div>
+                        <div class="text-xs sm:text-sm text-slate-300 mt-1 uppercase tracking-wider">Live Shows Daily</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl sm:text-4xl font-serif font-bold text-amberOzark-400">3</div>
+                        <div class="text-xs sm:text-sm text-slate-300 mt-1 uppercase tracking-wider">Pristine Ozark Lakes</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl sm:text-4xl font-serif font-bold text-amberOzark-400">1880s</div>
+                        <div class="text-xs sm:text-sm text-slate-300 mt-1 uppercase tracking-wider">Craft Theme Park Vibe</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl sm:text-4xl font-serif font-bold text-amberOzark-400">#1</div>
+                        <div class="text-xs sm:text-sm text-slate-300 mt-1 uppercase tracking-wider">Family Destination in MO</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FEATURED HIGHLIGHTS GRID -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="text-center max-w-3xl mx-auto mb-14">
+                    <span class="text-pine-700 font-semibold text-xs tracking-widest uppercase">Why Visit Branson</span>
+                    <h2 class="text-3xl sm:text-4xl font-serif font-bold text-slate-900 mt-2">Unforgettable Ozark Experiences</h2>
+                    <p class="text-slate-600 mt-3">From adrenaline-pumping wooden coasters to serene sunset lake cruises, Branson delivers something magical for every generation.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Highlight 1 -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-xl transition group">
+                        <div class="h-48 bg-pine-800 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?auto=format&fit=crop&w=800&q=80" alt="Theme Parks" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <span class="absolute bottom-3 left-4 bg-amberOzark-500 text-slate-950 font-bold text-xs px-3 py-1 rounded-full uppercase">Thrill & Crafts</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-serif font-bold text-slate-900 mb-2">Silver Dollar City</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-4">An internationally awarded 1880s theme park featuring world-record roller coasters, 100+ resident craftsmen, and mouthwatering Ozark skillet meals.</p>
+                            <button onclick="switchView('attractions', 'themepark')" class="text-pine-700 font-semibold text-sm hover:underline flex items-center gap-1">
+                                Explore Theme Parks <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Highlight 2 -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-xl transition group">
+                        <div class="h-48 bg-pine-800 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80" alt="Live Shows" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <span class="absolute bottom-3 left-4 bg-lakeSky-600 text-white font-bold text-xs px-3 py-1 rounded-full uppercase">Entertainment Capital</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-serif font-bold text-slate-900 mb-2">Live Music & Theater</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-4">Branson features over 50 theaters with legendary country, rock, gospel, acrobatics, comedy, and Broadway-style dinner spectacles every day.</p>
+                            <button onclick="switchView('attractions', 'shows')" class="text-pine-700 font-semibold text-sm hover:underline flex items-center gap-1">
+                                Browse Show Lineup <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Highlight 3 -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-xl transition group">
+                        <div class="h-48 bg-pine-800 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80" alt="Lakes & Outdoors" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <span class="absolute bottom-3 left-4 bg-pine-700 text-white font-bold text-xs px-3 py-1 rounded-full uppercase">Ozark Nature</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-serif font-bold text-slate-900 mb-2">Table Rock & Taneycomo</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-4">Enjoy 800+ miles of shoreline on Table Rock Lake for boating and bass fishing, or cold water trout fishing on Lake Taneycomo at Branson Landing.</p>
+                            <button onclick="switchView('attractions', 'nature')" class="text-pine-700 font-semibold text-sm hover:underline flex items-center gap-1">
+                                Discover Outdoor Life <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- VIEW 2: TOP ATTRACTIONS -->
+        <!-- ================================================================= -->
+        <section id="view-attractions" class="view-section hidden">
+            <!-- PAGE HEADER -->
+            <div class="bg-pine-900 text-white py-12 px-4 sm:px-6 lg:px-8 border-b border-pine-800">
+                <div class="max-w-7xl mx-auto text-center">
+                    <span class="text-amberOzark-400 font-semibold text-xs tracking-widest uppercase">Explore Branson</span>
+                    <h1 class="text-3xl sm:text-5xl font-serif font-bold mt-1">Top Branson Attractions & Shows</h1>
+                    <p class="text-slate-300 mt-3 max-w-2xl mx-auto">Browse world-famous theme parks, live shows, outdoor lake activities, and historic landmarks. Save items to build your personal itinerary!</p>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                <!-- FILTER TABS & SEARCH BAR -->
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-slate-200">
+                    
+                    <!-- Category Filters -->
+                    <div class="flex flex-wrap items-center gap-2" id="attraction-filters">
+                        <button onclick="filterAttractions('all')" class="attr-filter-btn active bg-pine-800 text-white px-4 py-2 rounded-xl text-sm font-medium transition shadow-sm" data-category="all">
+                            All Attractions
+                        </button>
+                        <button onclick="filterAttractions('themepark')" class="attr-filter-btn bg-white hover:bg-slate-100 text-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition border border-slate-200" data-category="themepark">
+                            🎡 Theme Parks
+                        </button>
+                        <button onclick="filterAttractions('shows')" class="attr-filter-btn bg-white hover:bg-slate-100 text-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition border border-slate-200" data-category="shows">
+                            🎭 Live Shows
+                        </button>
+                        <button onclick="filterAttractions('nature')" class="attr-filter-btn bg-white hover:bg-slate-100 text-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition border border-slate-200" data-category="nature">
+                            🌲 Lakes & Nature
+                        </button>
+                        <button onclick="filterAttractions('museums')" class="attr-filter-btn bg-white hover:bg-slate-100 text-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition border border-slate-200" data-category="museums">
+                            🏛️ Museums & Shopping
+                        </button>
+                    </div>
+
+                    <!-- Search Box -->
+                    <div class="w-full md:w-72 relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                        <input type="text" id="attraction-search" oninput="searchAttractions()" placeholder="Search attractions..." class="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-pine-700 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- ATTRACTIONS GRID CONTAINER -->
+                <div id="attractions-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Dynamic rendering via JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- VIEW 3: BEST PLACES TO EAT & STAY -->
+        <!-- ================================================================= -->
+        <section id="view-eat-stay" class="view-section hidden">
+            <!-- PAGE HEADER -->
+            <div class="bg-pine-900 text-white py-12 px-4 sm:px-6 lg:px-8 border-b border-pine-800">
+                <div class="max-w-7xl mx-auto text-center">
+                    <span class="text-amberOzark-400 font-semibold text-xs tracking-widest uppercase">Ozark Hospitality</span>
+                    <h1 class="text-3xl sm:text-5xl font-serif font-bold mt-1">Best Places to Eat & Stay</h1>
+                    <p class="text-slate-300 mt-3 max-w-2xl mx-auto">Savor authentic Ozark comfort cuisine and discover top-rated resorts, rustic lakefront cabins, and family-friendly hotels.</p>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                
+                <!-- TOGGLE TABS FOR EAT VS STAY -->
+                <div class="flex justify-center mb-10">
+                    <div class="bg-slate-200 p-1.5 rounded-2xl flex items-center space-x-2">
+                        <button id="tab-btn-eat" onclick="switchEatStayTab('eat')" class="px-6 py-3 rounded-xl text-sm font-bold transition flex items-center gap-2 bg-pine-800 text-white shadow-md">
+                            <i class="fa-solid fa-utensils"></i> Where to Eat (Dining)
+                        </button>
+                        <button id="tab-btn-stay" onclick="switchEatStayTab('stay')" class="px-6 py-3 rounded-xl text-sm font-bold transition flex items-center gap-2 text-slate-700 hover:text-slate-900">
+                            <i class="fa-solid fa-hotel"></i> Where to Stay (Lodging)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- DINING SECTION TAB CONTENT -->
+                <div id="content-eat" class="eat-stay-content">
+                    <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+                        <h2 class="text-2xl font-serif font-bold text-slate-900">Iconic Branson Dining & Flavors</h2>
+                        <span class="text-sm text-slate-500">Famous for hearty portions, home-spun baking, and thrown rolls!</span>
+                    </div>
+
+                    <div id="dining-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Dynamic Dining Cards JS -->
+                    </div>
+                </div>
+
+                <!-- LODGING SECTION TAB CONTENT -->
+                <div id="content-stay" class="eat-stay-content hidden">
+                    <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+                        <h2 class="text-2xl font-serif font-bold text-slate-900">Top Resorts, Cabins & Hotels</h2>
+                        <span class="text-sm text-slate-500">From lakeside luxury to budget-friendly strip hotels</span>
+                    </div>
+
+                    <div id="lodging-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Dynamic Lodging Cards JS -->
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- VIEW 4: TOWN HISTORY -->
+        <!-- ================================================================= -->
+        <section id="view-history" class="view-section hidden">
+            <!-- PAGE HEADER -->
+            <div class="bg-pine-900 text-white py-12 px-4 sm:px-6 lg:px-8 border-b border-pine-800">
+                <div class="max-w-7xl mx-auto text-center">
+                    <span class="text-amberOzark-400 font-semibold text-xs tracking-widest uppercase">Heritage & Origins</span>
+                    <h1 class="text-3xl sm:text-5xl font-serif font-bold mt-1">The Story of Branson, Missouri</h1>
+                    <p class="text-slate-300 mt-3 max-w-2xl mx-auto">From an isolated Ozark cave in the 1880s to the Live Music Capital of the World.</p>
+                </div>
+            </div>
+
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                
+                <!-- INTRO FEATURE HERO -->
+                <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6 sm:p-8 mb-16 flex flex-col md:flex-row items-center gap-8 shadow-sm">
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl bg-amberOzark-600 text-white flex items-center justify-center shrink-0 shadow-lg">
+                        <i class="fa-solid fa-book-open text-4xl sm:text-5xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-serif font-bold text-slate-900 mb-2">Inspired by "The Shepherd of the Hills"</h3>
+                        <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+                            Branson's path to becoming a premier vacation spot began with Harold Bell Wright's 1907 novel <em>"The Shepherd of the Hills"</em>. The bestseller captivated millions across America, prompting thousands of readers to travel by horse and train to witness the mystical Ozark hills and caves firsthand.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- TIMELINE SEC -->
+                <div id="timeline-sec" class="relative border-l-4 border-pine-700 ml-4 sm:ml-32 space-y-12">
+                    
+                    <!-- Timeline Item 1 -->
+                    <div id="marvel-cave-sec" class="relative pl-6 sm:pl-10 group">
+                        <div class="absolute -left-[18px] top-1.5 w-8 h-8 rounded-full bg-pine-800 border-4 border-white text-white flex items-center justify-center text-xs shadow">
+                            <i class="fa-solid fa-mountain"></i>
+                        </div>
+                        <div class="sm:absolute sm:-left-32 sm:top-1 text-sm font-bold text-pine-800 uppercase tracking-wider mb-2 sm:mb-0">
+                            1880s
+                        </div>
+                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                            <h4 class="text-xl font-serif font-bold text-slate-900 mb-2">Marvel Cave Discovery</h4>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                Originally named "Marble Cave" by early explorers expecting marble deposits, Canadian miner William Henry Lynch purchased the cave in 1889 and opened it to daring tourists who descended 200 feet via ropes and ladders into the massive Cathedral Room.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 2 -->
+                    <div class="relative pl-6 sm:pl-10 group">
+                        <div class="absolute -left-[18px] top-1.5 w-8 h-8 rounded-full bg-pine-800 border-4 border-white text-white flex items-center justify-center text-xs shadow">
+                            <i class="fa-solid fa-train"></i>
+                        </div>
+                        <div class="sm:absolute sm:-left-32 sm:top-1 text-sm font-bold text-pine-800 uppercase tracking-wider mb-2 sm:mb-0">
+                            1913
+                        </div>
+                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                            <h4 class="text-xl font-serif font-bold text-slate-900 mb-2">Taneycomo Dam & Railway Era</h4>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                Construction of Powersite Dam formed Lake Taneycomo, turning Branson into an accessible summer resort town. Combined with the White River Railway, tourists flooded in for cool water swimming and fishing.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 3 -->
+                    <div class="relative pl-6 sm:pl-10 group">
+                        <div class="absolute -left-[18px] top-1.5 w-8 h-8 rounded-full bg-pine-800 border-4 border-white text-white flex items-center justify-center text-xs shadow">
+                            <i class="fa-solid fa-water"></i>
+                        </div>
+                        <div class="sm:absolute sm:-left-32 sm:top-1 text-sm font-bold text-pine-800 uppercase tracking-wider mb-2 sm:mb-0">
+                            1950s
+                        </div>
+                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                            <h4 class="text-xl font-serif font-bold text-slate-900 mb-2">Table Rock Lake & Silver Dollar City Born</h4>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                The US Army Corps of Engineers completed Table Rock Dam in 1958. In 1960, Mary and Hugo Herschend leased Marvel Cave and constructed a quaint 1880s Ozark village craft attraction around its opening—creating <strong>Silver Dollar City</strong>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 4 -->
+                    <div id="music-capital-sec" class="relative pl-6 sm:pl-10 group">
+                        <div class="absolute -left-[18px] top-1.5 w-8 h-8 rounded-full bg-amberOzark-600 border-4 border-white text-white flex items-center justify-center text-xs shadow">
+                            <i class="fa-solid fa-guitar"></i>
+                        </div>
+                        <div class="sm:absolute sm:-left-32 sm:top-1 text-sm font-bold text-amberOzark-600 uppercase tracking-wider mb-2 sm:mb-0">
+                            1960s–90s
+                        </div>
+                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                            <h4 class="text-xl font-serif font-bold text-slate-900 mb-2">The Live Music Show Boom</h4>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                In 1959, the Mabe family (Baldknobbers) gave Branson's first live musical show on Highway 76. By the 1980s and 1990s, stars like Roy Clark, Andy Williams, Glen Campbell, and Mickey Gilley built million-dollar theaters, earning Branson national recognition on CBS's <em>60 Minutes</em> as the "Live Music Capital of the World."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 5 -->
+                    <div class="relative pl-6 sm:pl-10 group">
+                        <div class="absolute -left-[18px] top-1.5 w-8 h-8 rounded-full bg-pine-800 border-4 border-white text-white flex items-center justify-center text-xs shadow">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div class="sm:absolute sm:-left-32 sm:top-1 text-sm font-bold text-pine-800 uppercase tracking-wider mb-2 sm:mb-0">
+                            Modern Day
+                        </div>
+                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                            <h4 class="text-xl font-serif font-bold text-slate-900 mb-2">World-Class Ozark Resort City</h4>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                Today, Branson welcomes over 10 million visitors annually. Highlights include Branson Landing's 1.5-mile waterfront boardwalk, Big Cedar Lodge’s world-renowned golf courses, and expanded year-round entertainment.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- VIEW 5: COST TO VISIT & INTERACTIVE BUDGET ESTIMATOR -->
+        <!-- ================================================================= -->
+        <section id="view-cost" class="view-section hidden">
+            <!-- PAGE HEADER -->
+            <div class="bg-pine-900 text-white py-12 px-4 sm:px-6 lg:px-8 border-b border-pine-800">
+                <div class="max-w-7xl mx-auto text-center">
+                    <span class="text-amberOzark-400 font-semibold text-xs tracking-widest uppercase">Smart Vacation Planning</span>
+                    <h1 class="text-3xl sm:text-5xl font-serif font-bold mt-1">Branson Vacation Cost & Estimator</h1>
+                    <p class="text-slate-300 mt-3 max-w-2xl mx-auto">Branson is famous for high vacation value! Use our interactive budget calculator below to estimate exact expenses for your trip.</p>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                
+                <!-- BUDGET TIERS SUMMARY OVERVIEW -->
+                <div id="tier-breakdown" class="mb-16">
+                    <h2 class="text-2xl font-serif font-bold text-slate-900 text-center mb-8">Estimated Daily Cost Tiers (Per Person)</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Budget Saver -->
+                        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-emerald-100 text-emerald-800 font-bold text-xs px-3 py-1 rounded-full uppercase">Budget Saver</span>
+                                <span class="text-2xl font-bold text-slate-900">$85 - $130 <span class="text-xs text-slate-500 font-normal">/ day</span></span>
+                            </div>
+                            <ul class="text-xs text-slate-600 space-y-2.5">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600"></i> Motel or budget hotel near Hwy 76</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600"></i> Casual Ozark dining & BBQ joints</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600"></i> Free fountain shows at Branson Landing</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600"></i> 1-2 key show tickets or nature hikes</li>
+                            </ul>
+                        </div>
+
+                        <!-- Mid-Range Family -->
+                        <div class="bg-white rounded-2xl p-6 border-2 border-amberOzark-500 shadow-md relative">
+                            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-amberOzark-500 text-slate-950 text-[10px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">Most Popular</span>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-amber-100 text-amber-800 font-bold text-xs px-3 py-1 rounded-full uppercase">Mid-Range Family</span>
+                                <span class="text-2xl font-bold text-slate-900">$160 - $240 <span class="text-xs text-slate-500 font-normal">/ day</span></span>
+                            </div>
+                            <ul class="text-xs text-slate-600 space-y-2.5">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-600"></i> Mid-tier resort / condo with pool</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-600"></i> Mel's Hard Luck, Keeter Center, Lambert's</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-600"></i> Silver Dollar City 1-2 day pass</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-600"></i> Premium theater music show tickets</li>
+                            </ul>
+                        </div>
+
+                        <!-- Luxury Resort -->
+                        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-purple-100 text-purple-800 font-bold text-xs px-3 py-1 rounded-full uppercase">Luxury & Spa</span>
+                                <span class="text-2xl font-bold text-slate-900">$350+ <span class="text-xs text-slate-500 font-normal">/ day</span></span>
+                            </div>
+                            <ul class="text-xs text-slate-600 space-y-2.5">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-600"></i> Big Cedar Lodge cabin or Chateau Spa</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-600"></i> Top of the Rock cliffside fine dining</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-600"></i> Private boat charter on Table Rock Lake</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-600"></i> VIP theater seats & golf tee times</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INTERACTIVE VACATION BUDGET ESTIMATOR TOOL -->
+                <div id="estimator-tool" class="bg-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-2xl border border-slate-800">
+                    <div class="text-center max-w-2xl mx-auto mb-10">
+                        <span class="bg-amberOzark-500/20 text-amberOzark-400 text-xs font-bold px-3 py-1 rounded-full uppercase">Interactive Tool</span>
+                        <h2 class="text-3xl font-serif font-bold text-white mt-2">Custom Branson Trip Budget Estimator</h2>
+                        <p class="text-slate-400 text-sm mt-2">Adjust the sliders below to compute instant estimated costs for accommodation, shows, dining, and travel.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                        
+                        <!-- SLIDER CONTROLS -->
+                        <div class="lg:col-span-7 space-y-6 bg-slate-800/80 p-6 rounded-2xl border border-slate-700">
+                            
+                            <!-- 1. Length of Stay -->
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="text-sm font-semibold text-slate-200">Trip Duration (Days)</label>
+                                    <span id="val-days" class="text-amberOzark-400 font-bold text-base">4 Days</span>
+                                </div>
+                                <input type="range" id="input-days" min="1" max="14" value="4" step="1" oninput="updateCalculator()" class="w-full h-2 bg-slate-700 rounded-lg cursor-pointer">
+                            </div>
+
+                            <!-- 2. Number of Travelers -->
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="text-sm font-semibold text-slate-200">Number of Travelers</label>
+                                    <span id="val-travelers" class="text-amberOzark-400 font-bold text-base">2 People</span>
+                                </div>
+                                <input type="range" id="input-travelers" min="1" max="10" value="2" step="1" oninput="updateCalculator()" class="w-full h-2 bg-slate-700 rounded-lg cursor-pointer">
+                            </div>
+
+                            <!-- 3. Lodging Accommodation Level -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-200 mb-2">Lodging Tier (Per Night)</label>
+                                <div class="grid grid-cols-3 gap-3 text-xs">
+                                    <label class="cursor-pointer bg-slate-700 hover:bg-slate-600 p-3 rounded-xl border border-slate-600 text-center has-[:checked]:border-amberOzark-500 has-[:checked]:bg-pine-900">
+                                        <input type="radio" name="lodging-tier" value="85" onchange="updateCalculator()" class="sr-only">
+                                        <div class="font-bold text-white">Budget Motel</div>
+                                        <div class="text-slate-400 text-[10px]">$85 / night</div>
+                                    </label>
+                                    <label class="cursor-pointer bg-slate-700 hover:bg-slate-600 p-3 rounded-xl border border-slate-600 text-center has-[:checked]:border-amberOzark-500 has-[:checked]:bg-pine-900">
+                                        <input type="radio" name="lodging-tier" value="165" checked onchange="updateCalculator()" class="sr-only">
+                                        <div class="font-bold text-white">Mid Hotel / Condo</div>
+                                        <div class="text-slate-400 text-[10px]">$165 / night</div>
+                                    </label>
+                                    <label class="cursor-pointer bg-slate-700 hover:bg-slate-600 p-3 rounded-xl border border-slate-600 text-center has-[:checked]:border-amberOzark-500 has-[:checked]:bg-pine-900">
+                                        <input type="radio" name="lodging-tier" value="380" onchange="updateCalculator()" class="sr-only">
+                                        <div class="font-bold text-white">Luxury Resort / Cabin</div>
+                                        <div class="text-slate-400 text-[10px]">$380 / night</div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- 4. Major Attractions / Shows Ticket Count -->
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="text-sm font-semibold text-slate-200">Major Shows & Parks per Person</label>
+                                    <span id="val-shows" class="text-amberOzark-400 font-bold text-base">2 Tickets ($130/pp)</span>
+                                </div>
+                                <input type="range" id="input-shows" min="0" max="6" value="2" step="1" oninput="updateCalculator()" class="w-full h-2 bg-slate-700 rounded-lg cursor-pointer">
+                            </div>
+
+                            <!-- 5. Daily Dining Budget per Person -->
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="text-sm font-semibold text-slate-200">Daily Food & Dining (Per Person)</label>
+                                    <span id="val-food" class="text-amberOzark-400 font-bold text-base">$50 / day</span>
+                                </div>
+                                <input type="range" id="input-food" min="25" max="150" value="50" step="5" oninput="updateCalculator()" class="w-full h-2 bg-slate-700 rounded-lg cursor-pointer">
+                            </div>
+
+                            <!-- 6. Transportation / Gas Allowance -->
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="text-sm font-semibold text-slate-200">Travel & Gas Budget (Flat)</label>
+                                    <span id="val-travel" class="text-amberOzark-400 font-bold text-base">$120</span>
+                                </div>
+                                <input type="range" id="input-travel" min="30" max="400" value="120" step="10" oninput="updateCalculator()" class="w-full h-2 bg-slate-700 rounded-lg cursor-pointer">
+                            </div>
+
+                        </div>
+
+                        <!-- CALCULATION DISPLAY BOX -->
+                        <div class="lg:col-span-5 bg-gradient-to-br from-pine-900 to-pine-950 p-6 sm:p-8 rounded-2xl border border-pine-700 shadow-xl flex flex-col justify-between h-full">
+                            <div>
+                                <h3 class="text-xs uppercase font-semibold text-amberOzark-400 tracking-wider mb-1">Estimated Trip Total</h3>
+                                <div id="calc-grand-total" class="text-4xl sm:text-5xl font-serif font-bold text-white mb-1">$1,280</div>
+                                <div id="calc-per-person" class="text-xs text-slate-300 font-medium mb-6">~$640 per traveler</div>
+
+                                <div class="border-t border-pine-800 pt-4 space-y-3">
+                                    <div class="text-xs font-semibold uppercase text-slate-400 mb-2">Expense Breakdown</div>
+                                    
+                                    <!-- Lodging Bar -->
+                                    <div>
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span class="text-slate-300">Lodging Accommodation</span>
+                                            <span id="calc-lodging-val" class="font-bold text-white">$495</span>
+                                        </div>
+                                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                            <div id="bar-lodging" class="bg-amberOzark-500 h-full transition-all duration-300" style="width: 40%"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Attractions Bar -->
+                                    <div>
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span class="text-slate-300">Shows & Attractions</span>
+                                            <span id="calc-shows-val" class="font-bold text-white">$260</span>
+                                        </div>
+                                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                            <div id="bar-shows" class="bg-lakeSky-500 h-full transition-all duration-300" style="width: 25%"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Food Bar -->
+                                    <div>
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span class="text-slate-300">Dining & Meals</span>
+                                            <span id="calc-food-val" class="font-bold text-white">$400</span>
+                                        </div>
+                                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                            <div id="bar-food" class="bg-emerald-500 h-full transition-all duration-300" style="width: 25%"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Transport Bar -->
+                                    <div>
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span class="text-slate-300">Gas & Local Travel</span>
+                                            <span id="calc-travel-val" class="font-bold text-white">$125</span>
+                                        </div>
+                                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                            <div id="bar-travel" class="bg-purple-500 h-full transition-all duration-300" style="width: 10%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-8 pt-4 border-t border-pine-800 text-xs text-slate-300 space-y-2">
+                                <p><i class="fa-solid fa-lightbulb text-amberOzark-400 mr-1"></i> <strong>Money-Saving Tip:</strong> Visit mid-week (Tuesday-Thursday) or spring/autumn season to save up to 25% on lodging and show packages!</p>
+                                <button onclick="toggleItineraryDrawer()" class="w-full bg-amberOzark-500 hover:bg-amberOzark-600 text-slate-950 font-bold py-3 rounded-xl transition mt-2 shadow">
+                                    View Your Saved Itinerary
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================================================================= -->
+    <!-- MY ITINERARY SLIDE-OVER DRAWER -->
+    <!-- ================================================================= -->
+    <div id="itinerary-drawer-overlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden transition-opacity" onclick="toggleItineraryDrawer()"></div>
+    
+    <div id="itinerary-drawer" class="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        
+        <div class="bg-pine-900 text-white p-5 flex items-center justify-between border-b border-pine-800">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-suitcase text-amberOzark-400 text-xl"></i>
+                <h3 class="font-serif font-bold text-lg">My Branson Itinerary</h3>
+            </div>
+            <button onclick="toggleItineraryDrawer()" class="text-slate-300 hover:text-white p-1" aria-label="Close Itinerary">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <div id="itinerary-print-area" class="flex-grow overflow-y-auto p-5 space-y-4">
+            
+            <div id="itinerary-empty-msg" class="text-center py-12 text-slate-500">
+                <i class="fa-solid fa-compass text-4xl text-slate-300 mb-3 block"></i>
+                <p class="font-medium">Your itinerary is empty</p>
+                <p class="text-xs mt-1">Browse attractions or places to eat/stay and click "Add to Itinerary".</p>
+            </div>
+
+            <div id="itinerary-items-list" class="space-y-3">
+                <!-- Dynamically populated via JavaScript -->
+            </div>
+        </div>
+
+        <div class="p-5 border-t border-slate-200 bg-slate-50 no-print space-y-3">
+            <div class="flex items-center justify-between font-semibold text-slate-900 text-sm">
+                <span>Estimated Items Cost:</span>
+                <span id="itinerary-total-cost" class="text-lg font-bold text-pine-800">$0.00</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="printItinerary()" class="bg-pine-800 hover:bg-pine-900 text-white font-semibold py-2.5 rounded-xl text-sm transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-print"></i> Print Plan
+                </button>
+                <button onclick="clearItinerary()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2.5 rounded-xl text-sm transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-trash"></i> Clear All
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-pine-950 text-slate-400 border-t border-pine-900 text-xs py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div class="space-y-3">
+                <div class="flex items-center gap-2 text-white font-serif font-bold text-lg">
+                    <i class="fa-solid fa-mountain-sun text-amberOzark-400"></i> Discover Branson MO
+                </div>
+                <p class="leading-relaxed">Your comprehensive guide to exploring the Ozark lakes, world-class theaters, historic caves, and family entertainment in Branson, Missouri.</p>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-3">Quick Navigation</h4>
+                <ul class="space-y-2">
+                    <li><button onclick="switchView('home')" class="hover:text-amberOzark-400 transition">Home Overview</button></li>
+                    <li><button onclick="switchView('attractions')" class="hover:text-amberOzark-400 transition">Top Attractions</button></li>
+                    <li><button onclick="switchView('eat-stay')" class="hover:text-amberOzark-400 transition">Where to Eat & Stay</button></li>
+                    <li><button onclick="switchView('history')" class="hover:text-amberOzark-400 transition">Town History</button></li>
+                    <li><button onclick="switchView('cost')" class="hover:text-amberOzark-400 transition">Cost & Estimator</button></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-3">Key Highlights</h4>
+                <ul class="space-y-2">
+                    <li>Silver Dollar City</li>
+                    <li>Table Rock Lake & Dam</li>
+                    <li>Dolly Parton's Stampede</li>
+                    <li>Marvel Cave Tours</li>
+                    <li>Branson Landing Boardwalk</li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-3">Vacation Newsletter</h4>
+                <p class="mb-2">Get Branson show discounts & seasonal festival alerts.</p>
+                <div class="flex gap-2">
+                    <input type="email" placeholder="Your email..." class="bg-pine-900 border border-pine-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-amberOzark-500 w-full">
+                    <button onclick="showToast('Subscribed to Branson travel deals!')" class="bg-amberOzark-500 text-slate-950 font-bold px-3 rounded-lg hover:bg-amberOzark-600 transition">Join</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-pine-900 flex flex-col sm:flex-row items-center justify-between text-slate-500">
+            <p>&copy; 2026 Discover Branson Tourism Guide. All rights reserved.</p>
+            <div class="flex space-x-4 mt-4 sm:mt-0">
+                <i class="fa-brands fa-facebook hover:text-white cursor-pointer transition"></i>
+                <i class="fa-brands fa-instagram hover:text-white cursor-pointer transition"></i>
+                <i class="fa-brands fa-youtube hover:text-white cursor-pointer transition"></i>
+            </div>
+        </div>
+    </footer>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed bottom-5 left-5 z-50 flex flex-col gap-2"></div>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // ATTRACTION DATA
+        const ATTRACTIONS_DATA = [
+            {
+                id: 'sdc',
+                name: 'Silver Dollar City',
+                category: 'themepark',
+                image: 'https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?auto=format&fit=crop&w=600&q=80',
+                price: '$89 - $109',
+                numericPrice: 89,
+                rating: 4.9,
+                badge: 'Must Visit',
+                desc: '1880s-themed park featuring world-record wooden roller coasters, 100+ working craft artisans, and seasonal festivals.'
+            },
+            {
+                id: 'tablerock',
+                name: 'Table Rock Lake & Dam',
+                category: 'nature',
+                image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80',
+                price: 'Free - $62 (Cruises)',
+                numericPrice: 35,
+                rating: 4.8,
+                badge: 'Outdoor',
+                desc: '800 miles of clear shoreline for boating, swimming, bass fishing, and Showboat Branson Belle dinner cruises.'
+            },
+            {
+                id: 'dolly',
+                name: 'Dolly Parton\'s Stampede',
+                category: 'shows',
+                image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80',
+                price: '$69 - $85',
+                numericPrice: 75,
+                rating: 4.9,
+                badge: 'Top Dinner Show',
+                desc: 'Thrilling dinner show featuring 32 magnificent horses, trick riding, musical productions, and a delicious 4-course feast.'
+            },
+            {
+                id: 'titanic',
+                name: 'Titanic Museum Attraction',
+                category: 'museums',
+                image: 'https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&w=600&q=80',
+                price: '$35 - $42',
+                numericPrice: 38,
+                rating: 4.7,
+                badge: 'Museum',
+                desc: 'Half-scale ship containing $4M+ in genuine artifacts, real iceberg, Grand Staircase, and passenger stories.'
+            },
+            {
+                id: 'landing',
+                name: 'Branson Landing',
+                category: 'museums',
+                image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80',
+                price: 'Free Admission',
+                numericPrice: 0,
+                rating: 4.6,
+                badge: 'Shopping & Dining',
+                desc: '1.5-mile scenic lakefront boardwalk with 100+ stores, restaurants, and a $7.5M spectacular water & fire fountain show.'
+            },
+            {
+                id: 'shepherd',
+                name: 'Shepherd of the Hills Homestead',
+                category: 'nature',
+                image: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600&q=80',
+                price: '$25 - $55',
+                numericPrice: 35,
+                rating: 4.8,
+                badge: 'Historic & Adventure',
+                desc: 'Historic farmstead with zip lines, Inspiration Tower views, outdoor drama theater, and ropes course.'
+            },
+            {
+                id: 'haygoods',
+                name: 'The Haygoods Live Music Show',
+                category: 'shows',
+                image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=80',
+                price: '$48 - $58',
+                numericPrice: 52,
+                rating: 4.9,
+                badge: 'Popular Show',
+                desc: 'Explosive high-energy country/rock music concert performed by 5 brothers and 1 sister with laser visual effects.'
+            },
+            {
+                id: 'marvelcave',
+                name: 'Marvel Cave Tour',
+                category: 'themepark',
+                image: 'https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=600&q=80',
+                price: 'Included w/ SDC Pass',
+                numericPrice: 0,
+                rating: 4.8,
+                badge: 'Natural Wonder',
+                desc: 'Deepest cavern in Missouri. Walk down into the massive Cathedral Room illuminated by natural light.'
+            }
+        ];
+
+        // DINING DATA
+        const DINING_DATA = [
+            {
+                id: 'keeter',
+                name: 'The Keeter Center',
+                priceTier: '$$',
+                rating: 4.9,
+                image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80',
+                desc: 'Farm-to-fork dining at College of the Ozarks. Managed by students, featuring homemade ice cream, hot rolls, and roast pork.'
+            },
+            {
+                id: 'dannas',
+                name: 'Danna\'s BBQ & Burger Shop',
+                priceTier: '$',
+                rating: 4.8,
+                image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=600&q=80',
+                desc: 'Local favorite for hickory-smoked pulled pork, smoked pit ribs, crispy fried okra, and giant burgers.'
+            },
+            {
+                id: 'mels',
+                name: 'Mel\'s Hard Luck Diner',
+                priceTier: '$',
+                rating: 4.7,
+                image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80',
+                desc: '1950s style diner where talented singing servers belt out classic tunes while serving giant ice cream sundaes.'
+            },
+            {
+                id: 'lamberts',
+                name: 'Lambert\'s Cafe (Home of Thrown Rolls)',
+                priceTier: '$$',
+                rating: 4.8,
+                image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80',
+                desc: 'Famous Southern home-style cooking with generous pass-around side dishes and fresh hot rolls thrown straight across the room!'
+            }
+        ];
+
+        // LODGING DATA
+        const LODGING_DATA = [
+            {
+                id: 'bigcedar',
+                name: 'Big Cedar Lodge',
+                priceTier: '$$$',
+                rating: 4.9,
+                image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80',
+                desc: 'World-renowned wilderness luxury resort on Table Rock Lake with log cabins, full-service spa, and championship golf.'
+            },
+            {
+                id: 'chateau',
+                name: 'Chateau on the Lake Resort & Spa',
+                priceTier: '$$$',
+                rating: 4.8,
+                image: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=600&q=80',
+                desc: 'Mountaintop luxury resort with panoramic lake views, indoor/outdoor pools, marina, and elegant dining.'
+            },
+            {
+                id: 'grandcountry',
+                name: 'Grand Country Resort',
+                priceTier: '$$',
+                rating: 4.7,
+                image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=600&q=80',
+                desc: 'The ultimate family resort featuring Splash Country indoor waterpark, 3D mini golf, arcade, and live shows.'
+            },
+            {
+                id: 'landingcondos',
+                name: 'Branson Landing Waterfront Condos',
+                priceTier: '$$',
+                rating: 4.8,
+                image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80',
+                desc: 'Modern condo suites situated right on Lake Taneycomo with direct walkable access to shops and restaurants.'
+            }
+        ];
+
+        // APP STATE
+        let currentView = 'home';
+        let currentAttrCategory = 'all';
+        let itinerary = JSON.parse(localStorage.getItem('branson_itinerary') || '[]');
+
+        // INITIALIZATION
+        window.addEventListener('DOMContentLoaded', () => {
+            renderAttractions();
+            renderDining();
+            renderLodging();
+            updateItineraryBadge();
+            updateCalculator();
+        });
+
+        // VIEW SWITCHER
+        function switchView(viewName, subCategory = null) {
+            currentView = viewName;
+            
+            // Hide all sections
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.add('hidden'));
+            
+            // Show target section
+            const target = document.getElementById(`view-${viewName}`);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+
+            // Update active state on desktop navbar
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.getAttribute('data-view') === viewName) {
+                    btn.classList.add('bg-pine-800', 'text-white');
+                } else {
+                    btn.classList.remove('bg-pine-800', 'text-white');
+                }
+            });
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Handle optional subCategory filtering
+            if (viewName === 'attractions' && subCategory) {
+                filterAttractions(subCategory);
+            }
+        }
+
+        // SCROLL HELPER
+        function scrollToSection(elementId) {
+            setTimeout(() => {
+                const el = document.getElementById(elementId);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        }
+
+        // MOBILE MENU TOGGLE
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // EAT & STAY TAB SWITCH
+        function switchEatStayTab(tab) {
+            const eatBtn = document.getElementById('tab-btn-eat');
+            const stayBtn = document.getElementById('tab-btn-stay');
+            const eatContent = document.getElementById('content-eat');
+            const stayContent = document.getElementById('content-stay');
+
+            if (tab === 'eat') {
+                eatBtn.className = "px-6 py-3 rounded-xl text-sm font-bold transition flex items-center gap-2 bg-pine-800 text-white shadow-md";
+                stayBtn.className = "px-6 py-3 rounded-xl text-sm font-bold transition flex items-center gap-2 text-slate-700 hover:text-slate-900";
+                eatContent.classList.remove('hidden');
+                stayContent.classList.add('hidden');
+            } else {
+                stayBtn.className = "px-6 py-3 rounded-xl text-sm font-bold transition flex items-center gap-2 bg-pine-800 text-white shadow-md";
+                eatBtn.className = "px-6 py-3 rounded-xl text-sm font-bold transition flex items-center gap-2 text-slate-700 hover:text-slate-900";
+                stayContent.classList.remove('hidden');
+                eatContent.classList.add('hidden');
+            }
+        }
+
+        // RENDER ATTRACTIONS
+        function renderAttractions(itemsToRender = ATTRACTIONS_DATA) {
+            const grid = document.getElementById('attractions-grid');
+            if (!grid) return;
+
+            grid.innerHTML = itemsToRender.map(item => {
+                const isSaved = itinerary.some(i => i.id === item.id);
+                return `
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between">
+                        <div>
+                            <div class="h-48 relative overflow-hidden bg-slate-100">
+                                <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+                                <span class="absolute top-3 left-3 bg-pine-900/90 backdrop-blur-md text-amberOzark-400 font-bold text-xs px-2.5 py-1 rounded-md">
+                                    ${item.badge}
+                                </span>
+                                <span class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md text-slate-900 font-bold text-xs px-2.5 py-1 rounded-md shadow">
+                                    <i class="fa-solid fa-star text-amberOzark-500 mr-1"></i>${item.rating}
+                                </span>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-serif font-bold text-slate-900 mb-1">${item.name}</h3>
+                                <p class="text-xs font-semibold text-pine-700 mb-3">${item.price}</p>
+                                <p class="text-slate-600 text-sm leading-relaxed">${item.desc}</p>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-6 pt-2">
+                            <button onclick="toggleItineraryItem('${item.id}', '${item.name.replace(/'/g, "\\'")}', ${item.numericPrice})" 
+                                class="w-full font-bold text-sm py-2.5 rounded-xl transition flex items-center justify-center gap-2 ${
+                                    isSaved 
+                                    ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' 
+                                    : 'bg-pine-800 hover:bg-pine-900 text-white shadow-sm'
+                                }">
+                                <i class="fa-solid ${isSaved ? 'fa-check' : 'fa-plus'}"></i>
+                                ${isSaved ? 'In Your Itinerary' : 'Add to My Itinerary'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // FILTER ATTRACTIONS
+        function filterAttractions(category) {
+            currentAttrCategory = category;
+            
+            // Highlight filter buttons
+            document.querySelectorAll('.attr-filter-btn').forEach(btn => {
+                if (btn.getAttribute('data-category') === category) {
+                    btn.className = "attr-filter-btn active bg-pine-800 text-white px-4 py-2 rounded-xl text-sm font-medium transition shadow-sm";
+                } else {
+                    btn.className = "attr-filter-btn bg-white hover:bg-slate-100 text-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition border border-slate-200";
+                }
+            });
+
+            const filtered = category === 'all' 
+                ? ATTRACTIONS_DATA 
+                : ATTRACTIONS_DATA.filter(a => a.category === category);
+            
+            renderAttractions(filtered);
+        }
+
+        // SEARCH ATTRACTIONS
+        function searchAttractions() {
+            const query = document.getElementById('attraction-search').value.toLowerCase();
+            const filtered = ATTRACTIONS_DATA.filter(a => 
+                (currentAttrCategory === 'all' || a.category === currentAttrCategory) &&
+                (a.name.toLowerCase().includes(query) || a.desc.toLowerCase().includes(query))
+            );
+            renderAttractions(filtered);
+        }
+
+        // RENDER DINING
+        function renderDining() {
+            const grid = document.getElementById('dining-grid');
+            if (!grid) return;
+
+            grid.innerHTML = DINING_DATA.map(item => {
+                const isSaved = itinerary.some(i => i.id === item.id);
+                return `
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md">${item.priceTier}</span>
+                                <span class="text-xs font-bold text-slate-700"><i class="fa-solid fa-star text-amberOzark-500 mr-1"></i>${item.rating}</span>
+                            </div>
+                            <h3 class="text-xl font-serif font-bold text-slate-900 mb-2">${item.name}</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-4">${item.desc}</p>
+                        </div>
+                        <button onclick="toggleItineraryItem('${item.id}', '${item.name.replace(/'/g, "\\'")}', 25)" 
+                            class="w-full font-bold text-xs py-2.5 rounded-xl transition border border-slate-300 hover:bg-slate-100 text-slate-800">
+                            ${isSaved ? '✓ Saved in Plan' : '+ Add Dining to Plan'}
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // RENDER LODGING
+        function renderLodging() {
+            const grid = document.getElementById('lodging-grid');
+            if (!grid) return;
+
+            grid.innerHTML = LODGING_DATA.map(item => {
+                const isSaved = itinerary.some(i => i.id === item.id);
+                return `
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="bg-purple-100 text-purple-800 text-xs font-bold px-2.5 py-1 rounded-md">${item.priceTier}</span>
+                                <span class="text-xs font-bold text-slate-700"><i class="fa-solid fa-star text-amberOzark-500 mr-1"></i>${item.rating}</span>
+                            </div>
+                            <h3 class="text-xl font-serif font-bold text-slate-900 mb-2">${item.name}</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-4">${item.desc}</p>
+                        </div>
+                        <button onclick="toggleItineraryItem('${item.id}', '${item.name.replace(/'/g, "\\'")}', 150)" 
+                            class="w-full font-bold text-xs py-2.5 rounded-xl transition border border-slate-300 hover:bg-slate-100 text-slate-800">
+                            ${isSaved ? '✓ Saved in Plan' : '+ Add Lodging to Plan'}
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // UPDATE BUDGET ESTIMATOR CALCULATOR
+        function updateCalculator() {
+            const days = parseInt(document.getElementById('input-days').value);
+            const travelers = parseInt(document.getElementById('input-travelers').value);
+            
+            // Radio lodging tier
+            const lodgingRadio = document.querySelector('input[name="lodging-tier"]:checked');
+            const lodgingPerNight = lodgingRadio ? parseInt(lodgingRadio.value) : 165;
+            
+            const showsCount = parseInt(document.getElementById('input-shows').value);
+            const dailyFoodPerPerson = parseInt(document.getElementById('input-food').value);
+            const travelGas = parseInt(document.getElementById('input-travel').value);
+
+            // Labels update
+            document.getElementById('val-days').textContent = `${days} Day${days > 1 ? 's' : ''}`;
+            document.getElementById('val-travelers').textContent = `${travelers} Person${travelers > 1 ? 's' : ''}`;
+            document.getElementById('val-shows').textContent = `${showsCount} Ticket${showsCount > 1 ? 's' : ''} ($${showsCount * 65}/pp)`;
+            document.getElementById('val-food').textContent = `$${dailyFoodPerPerson} / day`;
+            document.getElementById('val-travel').textContent = `$${travelGas}`;
+
+            // Math
+            const totalLodging = lodgingPerNight * (days - 1 > 0 ? days - 1 : 1); // rooms based on nights
+            const totalAttractions = showsCount * 65 * travelers;
+            const totalFood = dailyFoodPerPerson * days * travelers;
+            const totalTravel = travelGas;
+
+            const grandTotal = totalLodging + totalAttractions + totalFood + totalTravel;
+            const perPerson = Math.round(grandTotal / travelers);
+
+            // Update UI
+            document.getElementById('calc-grand-total').textContent = `$${grandTotal.toLocaleString()}`;
+            document.getElementById('calc-per-person').textContent = `~$${perPerson.toLocaleString()} per traveler`;
+
+            document.getElementById('calc-lodging-val').textContent = `$${totalLodging}`;
+            document.getElementById('calc-shows-val').textContent = `$${totalAttractions}`;
+            document.getElementById('calc-food-val').textContent = `$${totalFood}`;
+            document.getElementById('calc-travel-val').textContent = `$${totalTravel}`;
+
+            // Percentage bars
+            document.getElementById('bar-lodging').style.width = `${Math.min(100, (totalLodging / grandTotal) * 100)}%`;
+            document.getElementById('bar-shows').style.width = `${Math.min(100, (totalAttractions / grandTotal) * 100)}%`;
+            document.getElementById('bar-food').style.width = `${Math.min(100, (totalFood / grandTotal) * 100)}%`;
+            document.getElementById('bar-travel').style.width = `${Math.min(100, (totalTravel / grandTotal) * 100)}%`;
+        }
+
+        // ITINERARY MANAGEMENT
+        function toggleItineraryItem(id, name, price) {
+            const index = itinerary.findIndex(item => item.id === id);
+            if (index >= 0) {
+                itinerary.splice(index, 1);
+                showToast(`Removed "${name}" from itinerary`);
+            } else {
+                itinerary.push({ id, name, price });
+                showToast(`Added "${name}" to your itinerary!`);
+            }
+
+            localStorage.setItem('branson_itinerary', JSON.stringify(itinerary));
+            updateItineraryBadge();
+            renderAttractions();
+            renderDining();
+            renderLodging();
+            renderItineraryDrawer();
+        }
+
+        function updateItineraryBadge() {
+            const badge = document.getElementById('itinerary-badge');
+            if (badge) {
+                badge.textContent = itinerary.length;
+            }
+        }
+
+        function toggleItineraryDrawer() {
+            const drawer = document.getElementById('itinerary-drawer');
+            const overlay = document.getElementById('itinerary-drawer-overlay');
+            drawer.classList.toggle('translate-x-full');
+            overlay.classList.toggle('hidden');
+
+            if (!drawer.classList.contains('translate-x-full')) {
+                renderItineraryDrawer();
+            }
+        }
+
+        function renderItineraryDrawer() {
+            const listContainer = document.getElementById('itinerary-items-list');
+            const emptyMsg = document.getElementById('itinerary-empty-msg');
+            const totalDisplay = document.getElementById('itinerary-total-cost');
+
+            if (itinerary.length === 0) {
+                emptyMsg.classList.remove('hidden');
+                listContainer.innerHTML = '';
+                totalDisplay.textContent = '$0.00';
+                return;
+            }
+
+            emptyMsg.classList.add('hidden');
+            let grandCost = 0;
+
+            listContainer.innerHTML = itinerary.map(item => {
+                grandCost += item.price;
+                return `
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between">
+                        <div>
+                            <div class="font-bold text-slate-800 text-sm">${item.name}</div>
+                            <div class="text-xs text-pine-700 font-semibold">Est. $${item.price}</div>
+                        </div>
+                        <button onclick="toggleItineraryItem('${item.id}', '${item.name.replace(/'/g, "\\'")}', ${item.price})" class="text-slate-400 hover:text-red-600 p-1">
+                            <i class="fa-solid fa-trash text-sm"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            totalDisplay.textContent = `$${grandCost.toFixed(2)}`;
+        }
+
+        function clearItinerary() {
+            itinerary = [];
+            localStorage.removeItem('branson_itinerary');
+            updateItineraryBadge();
+            renderAttractions();
+            renderDining();
+            renderLodging();
+            renderItineraryDrawer();
+            showToast('Itinerary cleared');
+        }
+
+        function printItinerary() {
+            window.print();
+        }
+
+        function handleQuickSearch() {
+            const interest = document.getElementById('quick-interest').value;
+            switchView('attractions', interest);
+            showToast('Redirected to tailored attractions!');
+        }
+
+        // TOAST SYSTEM
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'bg-pine-900 text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 border border-pine-700 animate-bounce';
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-amberOzark-400"></i> ${message}`;
+            
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
